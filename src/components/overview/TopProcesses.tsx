@@ -26,7 +26,7 @@ export function TopProcesses({ connections }: { connections: Connection[] }) {
   };
 
   return (
-    <div className="rounded-lg border border-base-800 bg-base-900/60 p-4">
+    <div className="rounded-lg border border-base-800 bg-base-900/60 p-4 transition-colors hover:border-base-700">
       <h3 className="text-xs font-medium uppercase tracking-wide text-base-400">プロセス別ポート数</h3>
       <div className="mt-3 space-y-2.5">
         {top.length === 0 && <div className="py-4 text-center text-xs text-base-500">データがありません</div>}

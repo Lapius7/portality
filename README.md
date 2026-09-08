@@ -29,11 +29,7 @@ npm run tauri dev      # 開発サーバ起動
 npm run tauri build    # NSISインストーラ付きリリースビルド
 ```
 
-初回ビルド前にアプリアイコンを差し替える場合:
-
-```powershell
-npx tauri icon path/to/source-icon.png
-```
+アプリ/インストーラーアイコンは `design/icon.svg` がソースです。差し替える場合はこのSVGを編集し、`npx tauri icon design/icon.svg` で `src-tauri/icons/` 配下の各サイズと `icon.ico` を再生成してください。
 
 ## 実装状況
 

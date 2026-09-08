@@ -30,7 +30,7 @@ export function StateBreakdown({ connections }: { connections: Connection[] }) {
   const total = connections.length || 1;
 
   return (
-    <div className="rounded-lg border border-base-800 bg-base-900/60 p-4">
+    <div className="rounded-lg border border-base-800 bg-base-900/60 p-4 transition-colors hover:border-base-700">
       <h3 className="text-xs font-medium uppercase tracking-wide text-base-400">状態の内訳</h3>
 
       <div className="mt-3 flex h-2.5 overflow-hidden rounded-full bg-base-800">

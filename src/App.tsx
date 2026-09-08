@@ -8,6 +8,8 @@ import { SettingsPanel } from "@/components/settings/SettingsPanel";
 import { OverviewView } from "@/components/overview/OverviewView";
 import { CommandPalette } from "@/components/common/CommandPalette";
 import { ToastStack } from "@/components/common/ToastStack";
+import { EmptyState } from "@/components/common/EmptyState";
+import { TableSkeleton } from "@/components/common/Skeleton";
 import { useConnections } from "@/queries/useConnections";
 import { useTrafficSubscription } from "@/queries/useTraffic";
 import { useUiStore } from "@/store/uiStore";
@@ -45,11 +47,9 @@ export default function App() {
 
           <div className="flex-1 overflow-hidden">
             {isLoading ? (
-              <div className="flex h-full items-center justify-center text-sm text-base-500">読み込み中...</div>
+              <TableSkeleton />
             ) : error ? (
-              <div className="flex h-full items-center justify-center text-sm text-state-closing">
-                接続情報の取得に失敗しました
-              </div>
+              <EmptyState icon="close" title="接続情報の取得に失敗しました" description="アプリを再起動してもう一度お試しください" />
             ) : (
               <ConnectionsTable connections={connections} />
             )}

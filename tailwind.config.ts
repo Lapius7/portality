@@ -37,6 +37,15 @@ export default {
       boxShadow: {
         panel: "0 8px 30px rgba(0,0,0,0.35)",
       },
+      keyframes: {
+        shimmer: {
+          "0%": { backgroundPosition: "-400px 0" },
+          "100%": { backgroundPosition: "400px 0" },
+        },
+      },
+      animation: {
+        shimmer: "shimmer 1.6s ease-in-out infinite",
+      },
     },
   },
   plugins: [],

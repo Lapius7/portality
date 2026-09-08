@@ -3,6 +3,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 
 import type { Connection } from "@/lib/types";
 import { useUiStore } from "@/store/uiStore";
+import { EmptyState } from "@/components/common/EmptyState";
 import { ConnectionRow, ROW_GRID_COLS } from "./ConnectionRow";
 
 const ROW_HEIGHT = 40;
@@ -84,6 +85,9 @@ export function ConnectionsTable({ connections }: { connections: Connection[] })
       </div>
 
       <div ref={parentRef} className="flex-1 overflow-y-auto px-2">
+        {items.length === 0 && (
+          <EmptyState icon="search" title="条件に一致する接続がありません" description="検索語やフィルタを調整してみてください" />
+        )}
         <div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
           {virtualizer.getVirtualItems().map((virtualRow) => {
             const item = items[virtualRow.index];
