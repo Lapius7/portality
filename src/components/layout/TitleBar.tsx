@@ -14,9 +14,7 @@ export function TitleBar() {
   return (
     <div className="drag flex h-11 shrink-0 items-center justify-between border-b border-base-800 bg-base-900 px-3">
       <div className="flex items-center gap-2.5">
-        <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-accent to-accent/60">
-          <Icon name="port" size={13} className="text-base-950" />
-        </div>
+        <img src="/app-icon.png" alt="" className="h-6 w-6 rounded-md" draggable={false} />
         <span className="text-sm font-semibold tracking-tight text-base-100">Portality</span>
         <span
           className={`ml-1 flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium ${

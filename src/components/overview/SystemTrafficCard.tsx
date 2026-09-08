@@ -8,7 +8,7 @@ export function SystemTrafficCard() {
   const latest = series[series.length - 1];
 
   return (
-    <div className="rounded-lg border border-base-800 bg-base-900/60 p-4">
+    <div className="rounded-lg border border-base-800 bg-base-900/60 p-4 transition-colors hover:border-base-700">
       <div className="flex items-center justify-between">
         <h3 className="text-xs font-medium uppercase tracking-wide text-base-400">システム全体の通信量</h3>
         {latest && (

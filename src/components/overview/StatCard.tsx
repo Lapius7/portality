@@ -22,7 +22,7 @@ export function StatCard({
   }[accent];
 
   return (
-    <div className="rounded-lg border border-base-800 bg-base-900/60 p-4">
+    <div className="rounded-lg border border-base-800 bg-base-900/60 p-4 transition-colors hover:border-base-700">
       <div className="flex items-center gap-2">
         <span className={`flex h-8 w-8 items-center justify-center rounded-md ${accentClass}`}>
           <Icon name={icon} size={16} />

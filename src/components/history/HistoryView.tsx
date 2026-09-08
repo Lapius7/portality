@@ -4,6 +4,8 @@ import { useHistory } from "@/queries/useHistory";
 import { api } from "@/lib/tauri";
 import { formatBytes, formatEndpoint } from "@/lib/format";
 import { useToastStore } from "@/store/toastStore";
+import { EmptyState } from "@/components/common/EmptyState";
+import { Skeleton } from "@/components/common/Skeleton";
 import { DateRangePicker } from "./DateRangePicker";
 import { HistoryTimeline } from "./HistoryTimeline";
 
@@ -72,11 +74,13 @@ export function HistoryView() {
 
       <div className="flex-1 overflow-y-auto px-2 py-2">
         {isLoading ? (
-          <div className="flex h-full items-center justify-center text-sm text-base-500">読み込み中...</div>
-        ) : rows.length === 0 ? (
-          <div className="flex h-full items-center justify-center text-sm text-base-500">
-            該当する履歴がありません
+          <div className="space-y-2 p-2">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <Skeleton key={i} className="h-6 w-full" />
+            ))}
           </div>
+        ) : rows.length === 0 ? (
+          <EmptyState icon="history" title="該当する履歴がありません" description="期間や検索条件を変更してみてください" />
         ) : (
           <table className="w-full text-left text-sm">
             <thead>

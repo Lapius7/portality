@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6f9dff"/>
+      <stop offset="100%" stop-color="#3d64d8"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="32" y="32" width="960" height="960" rx="216" fill="url(#bg)"/>
+  <rect x="32" y="32" width="960" height="960" rx="216" fill="url(#sheen)"/>
+  <rect x="32.5" y="32.5" width="959" height="959" rx="215.5" fill="none" stroke="#1c2b66" stroke-opacity="0.25" stroke-width="3"/>
+
+  <!-- Port glyph: rounded connector housing with four pins, matching the in-app "port" icon mark -->
+  <g transform="translate(512 512)">
+    <rect x="-280" y="-140" width="560" height="280" rx="56" fill="none" stroke="#f5f8ff" stroke-width="56" stroke-linejoin="round"/>
+    <g stroke="#f5f8ff" stroke-width="52" stroke-linecap="round">
+      <line x1="-168" y1="-40" x2="-168" y2="40"/>
+      <line x1="-56"  y1="-40" x2="-56"  y2="40"/>
+      <line x1="56"   y1="-40" x2="56"   y2="40"/>
+      <line x1="168"  y1="-40" x2="168"  y2="40"/>
+    </g>
+  </g>
+
+  <!-- Signal arcs radiating up-right, suggesting live network visibility -->
+  <g transform="translate(512 512)" fill="none" stroke="#eaf1ff" stroke-width="26" stroke-linecap="round" opacity="0.9">
+    <path d="M 246 -246 A 150 150 0 0 1 246 -66" />
+    <path d="M 296 -296 A 220 220 0 0 1 296 -16" opacity="0.55"/>
+  </g>
+</svg>
