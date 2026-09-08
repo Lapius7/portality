@@ -43,7 +43,7 @@
     "windows": {
       "nsis": {
         "installMode": "currentUser",
-        "languages": ["English", "JapaneseUnicode"],
+        "languages": ["English", "Japanese"],
         "displayLanguageSelector": true
       }
     },
