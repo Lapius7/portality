@@ -1,6 +1,6 @@
 [package]
 name = "portality"
-version = "0.1.0"
+version = "0.1.1"
 description = "Developer-focused port & network visibility tool"
 authors = ["Portality"]
 edition = "2021"

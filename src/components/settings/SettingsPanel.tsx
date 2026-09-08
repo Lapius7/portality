@@ -7,7 +7,7 @@ import { useInstallUpdate, useUpdateCheck } from "@/queries/useUpdater";
 import { useToastStore } from "@/store/toastStore";
 import { Icon, type IconName } from "@/components/common/Icon";
 
-const APP_VERSION = "0.1.0";
+const APP_VERSION = "0.1.1";
 
 function SectionCard({ icon, title, children }: { icon: IconName; title: string; children: ReactNode }) {
   return (
