@@ -1,0 +1,60 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Portality",
+  "version": "0.1.0",
+  "identifier": "com.portality.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Portality",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 960,
+        "minHeight": 600,
+        "decorations": false,
+        "transparent": false,
+        "shadow": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "publisher": "Portality",
+    "copyright": "Copyright © 2026 Portality",
+    "category": "DeveloperTool",
+    "shortDescription": "開発者向けポート/ネットワーク可視化ツール",
+    "longDescription": "使用中のTCP/UDPポート、プロセス、通信量をリアルタイムに可視化する開発者向けデスクトップツール。",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "nsis": {
+        "installMode": "currentUser",
+        "languages": ["English", "JapaneseUnicode"],
+        "displayLanguageSelector": true
+      }
+    },
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/Lapius7/portality/releases/latest/download/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDMyNEM2MUZBOEIyRjdEMkUKUldRdWZTK0wrbUZNTW1hNXcybk9OQlJNM2ZBQVVSQ0VlRk9tYnRpay84UE8rY3c4cm1tdHRxdjkK"
+    }
+  }
+}
