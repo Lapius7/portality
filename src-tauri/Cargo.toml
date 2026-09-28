@@ -4,6 +4,7 @@ version = "0.1.1"
 description = "Developer-focused port & network visibility tool"
 authors = ["Portality"]
 edition = "2021"
+license = "MIT"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
