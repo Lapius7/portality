@@ -74,3 +74,7 @@ src/
     ├── settings/ # 更新間隔・保持期間・権限表示
     └── common/   # コマンドパレット(Cmd/Ctrl+K)、トースト通知
 ```
+
+## ライセンス
+
+[MIT](LICENSE)
