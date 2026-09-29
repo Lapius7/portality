@@ -18,7 +18,7 @@ serde_json = "1"
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "sync"] }
 sysinfo = "0.32"
 thiserror = "1"
-rusqlite = { version = "0.32", features = ["bundled"] }
+rusqlite = { version = "0.40", features = ["bundled"] }
 
 # Windows-only native networking / process APIs.
 [target.'cfg(windows)'.dependencies]
