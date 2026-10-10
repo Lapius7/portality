@@ -24,9 +24,9 @@ Tauri (Rust) + React/TypeScript 製。
 前提: Node.js 18+, Rust (stable, MSVC toolchain), [Tauri の前提環境](https://tauri.app/start/prerequisites/) (WebView2 は Windows 11 なら標準搭載)。
 
 ```powershell
-npm install
-npm run tauri dev      # 開発サーバ起動
-npm run tauri build    # NSISインストーラ付きリリースビルド
+pnpm install
+pnpm run tauri dev      # 開発サーバ起動
+pnpm run tauri build    # NSISインストーラ付きリリースビルド
 ```
 
 アプリ/インストーラーアイコンは `design/icon.svg` がソースです。差し替える場合はこのSVGを編集し、`npx tauri icon design/icon.svg` で `src-tauri/icons/` 配下の各サイズと `icon.ico` を再生成してください。
