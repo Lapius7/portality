@@ -1,80 +1,117 @@
-# Portality
+<div align="center">
 
-開発者向けの高機能ポート/ネットワーク可視化 Windows デスクトップアプリ。
-Tauri (Rust) + React/TypeScript 製。
+<p align="center">
+  <img src="docs/images/banner.png" alt="Portality" width="100%">
+</p>
 
-## インストール方法
+<p align="center"><b>English</b> | <a href="README.ja.md">日本語</a></p>
 
-1. [Releases](https://github.com/Lapius7/portality/releases/latest) から最新の `Portality_x.y.z_x64-setup.exe` をダウンロード
-2. ダウンロードしたインストーラを実行(初回はWindows SmartScreenの警告が出ることがありますが、「詳細情報」→「実行」で進めます。証明書未署名のため表示されるもので、動作には問題ありません)
-3. インストール完了後、スタートメニューまたはデスクトップのショートカットから起動
+<h1 align="center">Portality</h1>
 
-### 起動後の使い方
+<h3 align="center">See every port and connection on your Windows PC.</h3>
 
-- ウィンドウを閉じても終了せず、**タスクトレイに常駐**します。再度開くにはトレイアイコンをクリックするか、右クリックメニューの「開く」を選択してください
-- 完全に終了するには、トレイアイコンを右クリックして「終了」を選択してください
-- Kill機能やトラフィック計測の精度を上げたい場合は、設定タブから「管理者として再起動」してください(必須ではありません)
+<p align="center">A Windows desktop app for developers that lists TCP/UDP ports, per-connection traffic, and history. Built with Tauri (Rust) and React/TypeScript.</p>
 
-### アップデート
+<p align="center">
+  <a href="https://github.com/Lapius7/portality/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Lapius7/portality?label=release&style=flat-square&color=e8833a&logo=github"></a>
+  <a href="https://github.com/Lapius7/portality/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/Lapius7/portality/ci.yml?branch=main&label=CI&style=flat-square&logo=githubactions&logoColor=white"></a>
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/github/license/Lapius7/portality?style=flat-square&color=97ca00"></a>
+  <a href="https://tauri.app"><img alt="Tauri" src="https://img.shields.io/badge/Tauri-2-ffc131?style=flat-square&logo=tauri&logoColor=000000"></a>
+  <a href="https://www.microsoft.com/windows"><img alt="Windows" src="https://img.shields.io/badge/platform-Windows-0078d4?style=flat-square&logo=windows&logoColor=white"></a>
+  <a href="https://github.com/Lapius7/portality/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Lapius7/portality?style=flat-square&color=e3b341&logo=github"></a>
+  <a href="https://github.com/Lapius7/portality/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/Lapius7/portality?style=flat-square&color=3b82f6"></a>
+</p>
 
-アプリ内の「設定 → アップデート → 更新を確認」から、新しいバージョンが公開されているかを確認し、そのままダウンロード・インストール・再起動できます。GitHub上の新しいリリースを自動で検知します。
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#features">Features</a> ·
+  <a href="#development">Development</a> ·
+  <a href="#roadmap">Roadmap</a>
+</p>
 
-## セットアップ (開発者向け・ソースからビルド)
+</div>
 
-前提: Node.js 18+, Rust (stable, MSVC toolchain), [Tauri の前提環境](https://tauri.app/start/prerequisites/) (WebView2 は Windows 11 なら標準搭載)。
+---
+
+## Features
+
+- **Port list**: TCP/UDP connections via `GetExtendedTcpTable` / `GetExtendedUdpTable`, with the process name for each PID. Updated every second by diff polling and event push, in a virtualized table with search and filters.
+- **Kill a process**: `TerminateProcess` with a confirmation dialog. On access denied, you can restart the app as administrator.
+- **Traffic graphs**: per-connection EStats (`GetPerTcpConnectionEStats`) for TCP and adapter totals (`GetIfTable2`) for the whole system, shown as row sparklines and a chart in the detail panel. UDP is not supported because Windows has no equivalent per-connection counter.
+- **History**: snapshots saved to SQLite (rusqlite, bundled) every 5 ticks of the poller. The history view has date-range and process-name filters, a timeline, CSV export, and automatic pruning by retention period.
+- **Keyboard first**: a Cmd/Ctrl+K command palette for tab switching, connection search, and kill. Toasts report kill and CSV export results.
+- **Tray**: closing the window keeps the app in the system tray.
+- **Auto update**: `tauri-plugin-updater` checks `latest.json` on GitHub Releases, then downloads, installs, and restarts.
+
+## Quick start
+
+1. Download the latest `Portality_x.y.z_x64-setup.exe` from [Releases](https://github.com/Lapius7/portality/releases/latest).
+2. Run the installer.
+3. Start Portality from the Start menu or the desktop shortcut.
+
+> [!NOTE]
+> Windows SmartScreen may warn on first run because the installer has no code-signing certificate. Choose "More info", then "Run anyway".
+
+**After you start it**
+
+- Closing the window does not quit the app; it stays in the **system tray**. Click the tray icon, or choose "Open" in its right-click menu, to show it again.
+- To quit completely, right-click the tray icon and choose "Quit".
+- To make kill and traffic measurement more accurate, choose "Restart as administrator" on the Settings tab. It is not required.
+
+**Update**: use Settings, Update, Check for updates in the app. It detects new GitHub releases, then downloads, installs, and restarts.
+
+## Development
+
+You need Node.js 18+, Rust (stable, MSVC toolchain), and the [Tauri prerequisites](https://tauri.app/start/prerequisites/) (WebView2 is included in Windows 11).
 
 ```powershell
 pnpm install
-pnpm run tauri dev      # 開発サーバ起動
-pnpm run tauri build    # NSISインストーラ付きリリースビルド
+pnpm run tauri dev      # start the dev server
+pnpm run tauri build    # release build with an NSIS installer
 ```
 
-アプリ/インストーラーアイコンは `design/icon.svg` がソースです。差し替える場合はこのSVGを編集し、`npx tauri icon design/icon.svg` で `src-tauri/icons/` 配下の各サイズと `icon.ico` を再生成してください。
+The app and installer icon comes from `design/icon.svg`. To replace it, edit the SVG and run `npx tauri icon design/icon.svg` to regenerate every size under `src-tauri/icons/` and `icon.ico`.
 
-## 実装状況
-
-- [x] **Phase 1 — ポート一覧・検索/フィルタ**: `GetExtendedTcpTable`/`GetExtendedUdpTable` によるTCP/UDP接続の列挙、PID→プロセス名の付与、1秒間隔の差分ポーリング+イベントプッシュ、仮想化テーブル+検索/フィルタUI。
-- [x] **Phase 2 — プロセスKill**: `TerminateProcess`によるKill、アクセス拒否時の「管理者として再起動」導線、確認ダイアログ。
-- [x] **Phase 3 — トラフィック/帯域グラフ**: TCP接続はper-connection EStats(`GetPerTcpConnectionEStats`)、システム全体はアダプタ集計(`GetIfTable2`)による通信量計測。行内スパークライン+詳細パネルのトラフィックチャート。UDPは非対応(OS側にUDP用の同等カウンタがないため)。
-- [x] **Phase 4 — 履歴・ポート使用ログ**: SQLite(rusqlite, bundled)に5秒毎のスナップショットを永続化。日付範囲/プロセス名フィルタ付きの履歴ビュー、タイムライン可視化、CSVエクスポート、保持期間ベースの自動プルーニング。
-- [x] **Phase 5 — UI仕上げ**: Cmd/Ctrl+Kのコマンドパレット(タブ移動・接続検索・Killをキーボードだけで実行)、トースト通知(Kill/CSVエクスポート結果)、インストーラのメタデータ(発行者・説明・日英インストーラ言語選択)を整備。設定パネル(更新間隔・保持期間・権限表示)を実装済み。
-- [x] **タスクトレイ常駐**: ウィンドウを閉じるとタスクトレイに常駐し、トレイアイコンのクリックまたは「開く」メニューで復帰、「終了」メニューで完全終了(`src-tauri/src/tray.rs`)。
-- [x] **GitHub経由の自動アップデート**: `tauri-plugin-updater`によりGitHub Releasesの`latest.json`をエンドポイントとして更新確認・ダウンロード・再起動を実装(設定 → アップデート)。
-
-## 開発環境に関する注意
-
-このコードはLinuxコンテナ内で作成されており、`cargo check`/`cargo build`(非Windowsターゲット、`net/iphlpapi.rs`・`traffic/estats.rs`・`traffic/adapter.rs`等のモック経路)とフロントエンドのビルド(`tsc`/`vite build`)は通過を確認済みです。ただし `Win32_NetworkManagement_IpHelper` / `GetPerTcpConnectionEStats` / `GetIfTable2` / `TerminateProcess` などのWindows専用API実装は、GitHub Actions上のWindowsランナーでのビルドで検証しています。EStats関連(`traffic/estats.rs`)でコンパイルエラーが出た場合、使用しているwindows crateのバージョンのドキュメント(docs.rs)で構造体/定数名を確認して調整してください。
-
-## アーキテクチャ概要
+<details>
+<summary>Architecture</summary>
 
 ```
 src-tauri/src/
-├── net/              # TCP/UDP接続列挙 (Windows IP Helper API) + プロセス情報付与
-├── process/kill.rs   # プロセス終了
-├── elevation.rs      # 管理者権限判定・昇格
-├── poller.rs         # バックグラウンドポーリング→差分イベント発行・トラフィック計測・履歴書き込み
-├── traffic/          # per-connection EStats + アダプタ集計フォールバック、ローリングバッファ
-├── persistence/      # SQLite(rusqlite)による履歴ログ、フィルタ付きクエリ、保持期間プルーニング
-├── tray.rs           # タスクトレイアイコン・メニュー(開く/終了)、閉じるボタンで常駐化
-└── commands/         # フロントエンドから呼び出すTauriコマンド一式
+├── net/              # TCP/UDP enumeration (Windows IP Helper API) + process info
+├── process/kill.rs   # process termination
+├── elevation.rs      # admin check and elevation
+├── poller.rs         # background polling -> diff events, traffic, history writes
+├── traffic/          # per-connection EStats + adapter-total fallback, rolling buffer
+├── persistence/      # SQLite (rusqlite) history, filtered queries, retention pruning
+├── tray.rs           # tray icon and menu (Open / Quit), stay resident on close
+└── commands/         # Tauri commands called from the frontend
 
 .github/workflows/
-├── ci.yml            # push/PR時のビルド確認(フロントエンド+Rust)
-└── release.yml       # vX.Y.Zタグpushで署名付きインストーラをビルドしGitHub Releaseに公開
+├── ci.yml            # build check on push/PR (frontend + Rust)
+└── release.yml       # on a vX.Y.Z tag, build the signed installer and publish a GitHub Release
 
 src/
-├── store/        # Zustand: connectionsStore(ライブ接続一覧), trafficStore(通信量), uiStore(タブ/フィルタ/選択状態)
-├── queries/      # TanStack Query: 接続/履歴の初期ロード、トラフィック購読、Kill/昇格ミューテーション
+├── store/        # Zustand: connectionsStore (live connections), trafficStore, uiStore (tab/filter/selection)
+├── queries/      # TanStack Query: initial load of connections/history, traffic subscription, kill/elevate mutations
 └── components/
-    ├── layout/   # フレームレスウィンドウ + カスタムタイトルバー + サイドバー(接続/履歴/設定タブ)
-    ├── grid/     # 仮想化テーブル + 検索/フィルタバー + 行内スパークライン
-    ├── detail/   # 選択接続の詳細パネル + トラフィックチャート
-    ├── kill/     # Kill確認ダイアログ
-    ├── history/  # 履歴ビュー・タイムライン・日付範囲プリセット・CSVエクスポート
-    ├── settings/ # 更新間隔・保持期間・権限表示
-    └── common/   # コマンドパレット(Cmd/Ctrl+K)、トースト通知
+    ├── layout/   # frameless window + custom title bar + sidebar (Connections / History / Settings)
+    ├── grid/     # virtualized table + search/filter bar + row sparklines
+    ├── detail/   # detail panel for the selected connection + traffic chart
+    ├── kill/     # kill confirmation dialog
+    ├── history/  # history view, timeline, date-range presets, CSV export
+    ├── settings/ # update interval, retention period, privilege display
+    └── common/   # command palette (Cmd/Ctrl+K), toasts
 ```
 
-## ライセンス
+</details>
+
+> [!NOTE]
+> This code was written in a Linux container. `cargo check` / `cargo build` (non-Windows targets, using the mock paths in `net/iphlpapi.rs`, `traffic/estats.rs`, and `traffic/adapter.rs`) and the frontend build (`tsc` / `vite build`) were confirmed there. The Windows-only API code (`Win32_NetworkManagement_IpHelper`, `GetPerTcpConnectionEStats`, `GetIfTable2`, `TerminateProcess`) is verified by building on a Windows runner in GitHub Actions. If `traffic/estats.rs` fails to compile, check the struct and constant names in the docs.rs page for your `windows` crate version. This rewrite did not re-run any build.
+
+## Roadmap
+
+All planned phases are done: port list, kill, traffic graphs, history, UI polish, tray, and auto update.
+
+## License
 
 [MIT](LICENSE)
